@@ -1,20 +1,22 @@
-const { urlencoded } = require('express');
+require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
+const { urlencoded } = require('express');
 require('colors');
-const nodemailer = require('nodemailer');
+const app = require('./app');
 
 
-const app = express();
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json()); 
+app.use(cors());
 
 app.use(require('./routes/index'));
 
 
 const on_server = async () =>{
-    await app.listen(4000);
-    console.log("Escuchando en el puerto 4000".green.bold);
+    await app.listen(process.env.PORT || 4000);
+    console.log(`Escuchando en el puerto ${process.env.PORT}`.green.bold);
 };
 
 on_server();
